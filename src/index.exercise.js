@@ -6,8 +6,45 @@ import '@reach/dialog/styles.css'
 
 import {Logo} from 'components/logo'
 
+function LoginOrRegister({onSubmit, buttonText}) {
+  function handleSubmit(event) {
+    event.preventDefault()
+    const {username, password} = event.target.elements
+    onSubmit({
+      username: username.value,
+      password: password.value,
+    })
+  }
+  return (
+    <form onSubmit={handleSubmit}>
+      <div>
+        <label htmlFor="username">Username</label>
+        <input id="username" type="text" />
+      </div>
+      <div>
+        <label htmlFor="password">Password</label>
+        <input id="password" type="password" />
+      </div>
+      <div>
+        <button type="submit">{buttonText}</button>
+      </div>
+    </form>
+  )
+}
+
 function App() {
   const [openModal, setOpenModal] = React.useState('none')
+
+  function login({username, password}) {
+    console.log(username)
+    console.log(password)
+  }
+
+  function register({username, password}) {
+    console.log(username)
+    console.log(password)
+  }
+
   return (
     <div>
       <Logo height="80" width="80" />
@@ -23,12 +60,14 @@ function App() {
           <button onClick={() => setOpenModal('none')}>X</button>
         </div>
         <h3>Login</h3>
+        <LoginOrRegister onSubmit={login} buttonText={'Login'} />
       </Dialog>
       <Dialog aria-label="Register form" isOpen={openModal === 'register'}>
         <div>
           <button onClick={() => setOpenModal('none')}>X</button>
         </div>
         <h3>Register</h3>
+        <LoginOrRegister onSubmit={register} buttonText={'Register'} />
       </Dialog>
     </div>
   )
